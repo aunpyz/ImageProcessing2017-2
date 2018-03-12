@@ -6,7 +6,7 @@ row = 0
 lst = list()
 # read file in binary
 def read(filename):
-    with open(filename,'rb') as file:
+    with open(filename, encoding='ISO-8859-1') as file:
         header = list()
         ls = list()
         # remove first line
@@ -16,8 +16,7 @@ def read(filename):
             if not line:
                 # end of file
                 break
-            elif (chr(line[0]) == '#'):
-                # cast to character
+            elif (line[0] == '#'):
                 # skip comment line
                 continue
             else:
@@ -30,20 +29,31 @@ def read(filename):
                 break
         header.append(file.readline())
 
-        while True:
-            c = file.read(1)
-            if not c:
-                # end of file
-                break
-            ls.append(ord(c))
+        lines = file.readlines()
+        l = list()
+        for line in lines:
+            for word in line:
+                l.append(ord(word))
+
+    #     while True:
+    #         c = file.read(1)
+    #         if not c:
+    #             # end of file
+    #             break
+    #         data = int(ord(c)) + 10
+
+    #         # clamp to 255
+    #         if data > 255:
+    #             data = 255
+    #         ls.append(data)
         
         # output file name
         name = filename.split('.')
         filename = name[0]+'_out.'+name[1]
 
-        write(filename, ls, header)
+        write(filename, l, header)
     file.close()
-    return ls
+    # return ls
 
 def write(filename, data, header):
     # clear file if exists
@@ -51,28 +61,36 @@ def write(filename, data, header):
     f.write('')
     f.close()
 
+    s = ''
     # write new file
-    with open(filename, 'a', encoding='ISO-8859-1') as file:
+    with open(filename, 'w', encoding='ISO-8859-1') as file:
         for h in header:
             # decoding
-            file.write(str(h, 'utf-8'))
+            s += h
         for d in data:
-            file.write(chr(d))
+            s += str(d)
+            s += ' '
+        file.write(s)
     file.close()
 
-lst = read('scaled_shapes.pgm')
-dtc = dict()
+# 1 histogram & object moment
+# lst = read('scaled_shapes.pgm')
+# dtc = dict()
 
-for i in lst:
-    dtc[i] = dtc.setdefault(i, 0) +1
+# for i in lst:
+#     dtc[i] = dtc.setdefault(i, 0) +1
 
 # 1.1 histogram
-od = collections.OrderedDict(sorted(dtc.items()))
+# od = collections.OrderedDict(sorted(dtc.items()))
 
-count = 0
-for key, val in od.items():
-    print(str(key)+'\t'+str(val))
-    count += val
-print(count)
+# count = 0
+# for key, val in od.items():
+#     print(str(key)+'\t'+str(val))
+#     count += val
+# print(count)
 
 # 1.2 object's moment
+
+# 2 point operations
+#read('SEM256_256.pgm')
+read('SEM256_256.pgm')
