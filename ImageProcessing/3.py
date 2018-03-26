@@ -39,7 +39,7 @@ def ComputeGrayLevel(r:list, g:list, b:list)->list:
         lst.append(int(round(gLvl)))
     return lst
 
-filenames = {"red":"SanFranPeak_red.pgm", "blue":"SanFranPeak_green.pgm", "green":"SanFranPeak_blue.pgm"}
+filenames = {"red":"SanFranPeak_red.pgm", "blue":"SanFranPeak_blue.pgm", "green":"SanFranPeak_green.pgm"}
 rHead, red, rDimension = r(filenames['red'])
 gHead, green, gDimension = r(filenames['green'])
 bHead, blue, bDimension = r(filenames['blue'])

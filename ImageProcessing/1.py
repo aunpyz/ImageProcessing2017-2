@@ -3,10 +3,10 @@ import math as m
 from matplotlib import pyplot as plt
 from ImgReader import readfile as r, writeNumeric as w
 
-def ToBinary(lst:list, ref:list)->list:
+def ToBinary(lst:list, ref)->list:
     l = list()
     for i in range(len(lst)):
-        if lst[i] in ref:
+        if lst[i] == ref:
             # check if pixel belongs to object
             l.append(1)
         else:
@@ -53,9 +53,23 @@ head, lst, dimension = r(filename)
 w(filename, lst, head, dimension)
 
 ref = [0,80,120,160,200]
-blist= ToBinary(lst, ref)
-moment = Moment(blist, dimension)
-print(moment)
+obj1 = ToBinary(lst, ref[0])
+obj2 = ToBinary(lst, ref[1])
+obj3 = ToBinary(lst, ref[2])
+obj4 = ToBinary(lst, ref[3])
+obj5 = ToBinary(lst, ref[4])
+
+moment1 = Moment(obj1, dimension)
+moment2 = Moment(obj2, dimension)
+moment3 = Moment(obj3, dimension)
+moment4 = Moment(obj4, dimension)
+moment5 = Moment(obj5, dimension)
+
+print(moment1)
+print(moment2)
+print(moment3)
+print(moment4)
+print(moment5)
 
 plt.hist(lst)
 plt.show()
