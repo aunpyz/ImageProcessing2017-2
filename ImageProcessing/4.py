@@ -1,3 +1,6 @@
+from ImgReader import readfile as r, writeNumeric as w
+from TriangularMatrix import ComputeW as c
+
 grid = [
     [0, 0], [0, 16], [0, 32], [0, 48], [0, 64], [0, 80], [0, 96], [0, 112], [0, 128], [
         0, 144], [0, 160], [0, 176], [0, 192], [0, 208], [0, 224], [0, 240], [0, 255],
@@ -70,3 +73,9 @@ disGrid = [
     [255, 0], [255, 16], [255, 32], [255, 48], [255, 64], [255, 80], [255, 96], [255, 112], [255, 128], [
         255, 144], [255, 160], [255, 176], [255, 192], [255, 208], [255, 224], [255, 240], [255, 255]
 ]
+
+filename = "distlenna.pgm"
+head, lst, dimension = r(filename)
+c(grid, disGrid, 16)
+
+w(filename, lst, head, dimension)
