@@ -76,6 +76,10 @@ disGrid = [
 
 filename = "distlenna.pgm"
 head, lst, dimension = r(filename)
-c(grid, disGrid, 16)
+
+wxy = list()
+
+for x in c(grid, disGrid, 16):
+    wxy.append(x)
 
 w(filename, lst, head, dimension)
