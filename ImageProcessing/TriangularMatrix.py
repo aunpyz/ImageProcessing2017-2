@@ -18,7 +18,6 @@ def ComputeW(grid: list, disGrid: list, dimension: int)->tuple:
                  disGrid[i*col+j+1][1],
                  disGrid[(i+1)*col+j][1],
                  disGrid[(i+1)*col+j+1][1]]
-
             ax = [0, 0, 0, 0]
             ay = [0, 0, 0, 0]
             for row in range(4):
@@ -41,7 +40,6 @@ def ComputeW(grid: list, disGrid: list, dimension: int)->tuple:
             # w1-w8
             wx = CalMatrix(bx, m, False)
             wy = CalMatrix(by, m, False)
-
             yield wx, wy
 
 
