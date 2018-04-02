@@ -1,13 +1,15 @@
 from ImgReader import readfile as r, writeNumeric as w
 from TriangularMatrix import ComputeW as c
+import math
 
-def Restore(wxy:list, grayLvl:list, disGrid:list, grid:list, size:int, section:int)->list:
+
+def Restore(wxy: list, grayLvl: list, disGrid: list, grid: list, size: int, section: int)->list:
     # wxy = (x, y), row = x, col = y
     lst = list()
     for row in range(size):
         for col in range(size):
-            cindex:int
-            rindex:int
+            cindex: int
+            rindex: int
             for i in range(1, section+1):
                 if col <= grid[i][1]:
                     cindex = i-1
@@ -22,7 +24,44 @@ def Restore(wxy:list, grayLvl:list, disGrid:list, grid:list, size:int, section:i
             x = round(wx[0]*row+wx[1]*col+wx[2]*col*row+wx[3])
             y = round(wy[0]*row+wy[1]*col+wy[2]*col*row+wy[3])
             lst.append(grayLvl[size*x+y])
+            # x = wx[0]*row+wx[1]*col+wx[2]*col*row+wx[3]
+            # y = wy[0]*row+wy[1]*col+wy[2]*col*row+wy[3]
+            
+            # if x > 255:
+            #     x = 255
+            # elif x < 0:
+            #     x = 0
+
+            # if y > 255:
+            #     y = 255
+            # elif y < 0:
+            #     y = 0
+            
+            # points = [
+            #     [math.floor(x), math.floor(y)],
+            #     [math.floor(x), math.ceil(y)],
+            #     [math.ceil(x), math.floor(y)],
+            #     [math.ceil(x), math.ceil(y)]
+            # ]
+            # gray = [
+            #     grayLvl[size*points[0][0]+points[0][1]],
+            #     grayLvl[size*points[1][0]+points[1][1]],
+            #     grayLvl[size*points[2][0]+points[2][1]],
+            #     grayLvl[size*points[3][0]+points[3][1]]
+            # ]
+            # lst.append(BilinearInterpolation(gray, [
+            #     x-math.floor(x),
+            #     y-math.floor(y)
+            # ]))
     return lst
+
+
+def BilinearInterpolation(grayLvl: list, points: list)->int:
+    gx1 = grayLvl[0]*(1-points[0])+grayLvl[1]*points[0]
+    gx2 = grayLvl[2]*(1-points[0])+grayLvl[3]*points[0]
+    g = gx1*(1-points[1])+gx2*points[1]
+    return round(g)
+
 grid = [
     [0, 0], [0, 16], [0, 32], [0, 48], [0, 64], [0, 80], [0, 96], [0, 112], [0, 128], [
         0, 144], [0, 160], [0, 176], [0, 192], [0, 208], [0, 224], [0, 240], [0, 255],
@@ -104,8 +143,8 @@ wxy = list()
 for x in c(grid, disGrid, 16):
     wxy.append(x)
 
-#x' = w1x+w2y+w3xy+w4
-#y' = w5x+w6y+w7xy+w8
+# x' = w1x+w2y+w3xy+w4
+# y' = w5x+w6y+w7xy+w8
 lst = Restore(wxy, lst, disGrid, grid, 256, 16)
 
 w(filename, lst, head, dimension)
